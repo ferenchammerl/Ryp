@@ -29,20 +29,15 @@ import java.util.Locale;
 @SessionAttributes("roles")
 public class AppController {
 
-    final
-    UserService userService;
+    final UserService userService;
 
-    final
-    UserProfileService userProfileService;
+    final UserProfileService userProfileService;
 
-    final
-    MessageSource messageSource;
+    final MessageSource messageSource;
 
-    final
-    PersistentTokenBasedRememberMeServices persistentTokenBasedRememberMeServices;
+    final PersistentTokenBasedRememberMeServices persistentTokenBasedRememberMeServices;
 
-    final
-    AuthenticationTrustResolver authenticationTrustResolver;
+    final AuthenticationTrustResolver authenticationTrustResolver;
 
     @Autowired
     public AppController(UserService userService, UserProfileService userProfileService, MessageSource messageSource, PersistentTokenBasedRememberMeServices persistentTokenBasedRememberMeServices, AuthenticationTrustResolver authenticationTrustResolver) {
