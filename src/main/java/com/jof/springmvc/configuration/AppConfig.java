@@ -23,10 +23,6 @@ public class AppConfig extends WebMvcConfigurerAdapter {
     @Autowired
     DbRoleToRoleConverter dbRoleToRoleConverter;
 
-
-    /**
-     * Configure TilesConfigurer.
-     */
     @Bean
     public TilesConfigurer tilesConfigurer() {
         TilesConfigurer tilesConfigurer = new TilesConfigurer();
@@ -35,36 +31,23 @@ public class AppConfig extends WebMvcConfigurerAdapter {
         return tilesConfigurer;
     }
 
-    /**
-     * Configure ViewResolvers to deliver preferred views.
-     */
     @Override
     public void configureViewResolvers(ViewResolverRegistry registry) {
         TilesViewResolver viewResolver = new TilesViewResolver();
         registry.viewResolver(viewResolver);
     }
 
-    /**
-     * Configure ResourceHandlers to serve static resources like CSS/ Javascript etc...
-     */
-
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/static/**").addResourceLocations("/static/");
     }
 
-    /**
-     * Configure Converter to be used.
-     */
     @Override
     public void addFormatters(FormatterRegistry registry) {
         registry.addConverter(dbRoleToRoleConverter);
     }
 
 
-    /**
-     * Configure MessageSource to lookup any validation/error message in internationalized property files
-     */
     @Bean
     public MessageSource messageSource() {
         ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
@@ -72,11 +55,6 @@ public class AppConfig extends WebMvcConfigurerAdapter {
         return messageSource;
     }
 
-    /**
-     * Optional. It's only required when handling '.' in @PathVariables which otherwise ignore everything after last '.' in @PathVaidables argument.
-     * It's a known bug in Spring [https://jira.spring.io/browse/SPR-6164], still present in Spring 4.1.7.
-     * This is a workaround for this issue.
-     */
     @Override
     public void configurePathMatch(PathMatchConfigurer matcher) {
         matcher.setUseRegisteredSuffixPatternMatch(true);
