@@ -27,7 +27,7 @@ public class MatchPlayer implements Comparable<MatchPlayer> {
     private Champion champion;
 
     @ManyToOne(optional = false)
-    @JoinColumn(name = "playerinfo_id", nullable = false, foreignKey = @ForeignKey(name = "FK_PLAYER_MATCH_ID"))
+    @JoinColumn(name = "playerinfo_id", foreignKey = @ForeignKey(name = "FK_PLAYER_INFO_ID"))
     private PlayerInfo playerInfo;
     /*
      *

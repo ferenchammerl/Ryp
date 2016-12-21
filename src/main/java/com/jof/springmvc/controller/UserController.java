@@ -290,7 +290,7 @@ public class UserController extends RypController {
         try {
             User remoteUser = (User) request.getSession().getAttribute("remoteUser");
             List<Match> matches;
-            if (remoteUser.readyToUpdate()) {
+            if (riotApiService != null) {
                 matches = riotApiService.getRecentGames(remoteUser.getId(), remoteUser.getUsername());
                 remoteUser.setLastUpdated(new Date());
             } else {

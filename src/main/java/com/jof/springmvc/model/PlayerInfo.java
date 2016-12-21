@@ -26,10 +26,8 @@ public class PlayerInfo {
     @Column(name = "summoner_name", nullable = false)
     private String summonerName;
 
-    @JoinColumn(name = "summoner_id")
     @OneToOne
-    @MapsId
-    @NotFound(action = NotFoundAction.IGNORE)
+    @PrimaryKeyJoinColumn
     private User user;
 
     public PlayerInfo() {
@@ -49,5 +47,13 @@ public class PlayerInfo {
 
     public void setSummonerId(Long summonerId) {
         this.summonerId = summonerId;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

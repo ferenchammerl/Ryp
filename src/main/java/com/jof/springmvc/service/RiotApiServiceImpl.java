@@ -33,6 +33,9 @@ public class RiotApiServiceImpl implements RiotApiService {
     MatchService matchService;
 
     @Autowired
+    PlayerInfoService playerInfoService;
+
+    @Autowired
     public RiotApiServiceImpl(Environment environment, MatchService matchService) {
         this.environment = environment;
         this.matchService = matchService;
@@ -126,6 +129,7 @@ public class RiotApiServiceImpl implements RiotApiService {
                 matchPlayer.setChampion(champion);
                 matchPlayer.setTeamId(p.getTeamId());
                 matchPlayers.add(matchPlayer);
+            playerInfoService.saveAll(playerInfo);
             }
             Collections.sort(matchPlayers);
             match.setMatchPlayers(matchPlayers);
