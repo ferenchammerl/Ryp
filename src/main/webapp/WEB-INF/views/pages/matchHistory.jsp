@@ -32,12 +32,12 @@
                 <tr>
                     <td colspan="3">
                         <div id="accordion${match.id}" class="collapse">
-                            <c:forEach items="${match.playerInfos}" var="playerInfo">
+                            <c:forEach items="${match.matchPlayers}" var="matchPlayer">
 
-                                <div class="alert alert-${playerInfo.teamId == 100 ? "success":"danger"}">
+                                <div class="alert alert-${matchPlayer.teamId == 100 ? "success":"danger"}">
                                     <p>
-                                        <a href="/user/reviews/createReview?target_user_id=${playerInfo.summonerId}&game_id=${match.id}">${playerInfo.summonerName}
-                                        </a>: ${playerInfo.champion.name}</p></div>
+                                        <a href="/user/reviews/createReview?target_user_id=${matchPlayer.summonerId}&game_id=${match.id}">${matchPlayer.summonerName}
+                                        </a>: ${matchPlayer.champion.name}</p></div>
                             </c:forEach>
                         </div>
                     </td>

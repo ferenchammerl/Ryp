@@ -1,6 +1,7 @@
 package com.jof.springmvc.controller;
 
 import com.jof.springmvc.model.Match;
+import com.jof.springmvc.model.PlayerInfo;
 import com.jof.springmvc.model.Role;
 import com.jof.springmvc.model.User;
 import com.jof.springmvc.service.MatchService;
@@ -20,6 +21,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenBasedRememberMeServices;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
@@ -102,15 +104,18 @@ public class UserController extends RypController {
      */
     @RequestMapping(value = {"/register"}, method = RequestMethod.POST)
     public String registerUser(@Valid User user, BindingResult result,
-                               ModelMap model) {
+                               ModelMap model, HttpServletRequest request) throws RiotApiException {
+        String summonerName = request.getParameter("summonerName");
+        validateSummonerRunePage(result, summonerName);
         if (result.hasErrors()) {
             return "register";
         }
 
-        //   validateSummonerRunePage(region, result, user.getUsername());
-
-        //TODO: get ID from API HERE
-        user.setId(Long.valueOf(new Random().nextInt()));
+        PlayerInfo playerInfo = new PlayerInfo();
+        playerInfo.setSummonerName(summonerName);
+        playerInfo.setSummonerId(riotApiService.getSummonerIdByName(summonerName));
+        user.setPlayerInfo(playerInfo);
+        user.setId(user.getPlayerInfo().getSummonerId());
 
         if (user.getRoles().isEmpty()) {
             Set<Role> profiles = new HashSet<Role>();

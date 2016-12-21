@@ -165,7 +165,7 @@ public class UserControllerTest {
     	User newUser = new User();
     	newUser.setId(13337L);
     	newUser.setUsername(UUID.randomUUID().toString()); // something that's not taken
-    	assertEquals("login", userController.registerUser(newUser, bindingResult, model));
+    	assertEquals("login", userController.registerUser(newUser, bindingResult, model, request));
     }
     
     

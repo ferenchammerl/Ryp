@@ -16,6 +16,7 @@ public class User implements Serializable {
 
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @Column(name = "id", nullable = false, columnDefinition = "BIGINT(20)")
     private Long id;
@@ -31,7 +32,6 @@ public class User implements Serializable {
     @NotEmpty
     @Column(name = "email", nullable = false)
     private String email;
-
 
     @Column(name = "created_at", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP", nullable = true)
     private Date created_at;
@@ -50,6 +50,9 @@ public class User implements Serializable {
     @JoinTable(name = "user_role", joinColumns = {@JoinColumn(name = "user_id")}, inverseJoinColumns = {
             @JoinColumn(name = "role_id")})
     private Set<Role> roles = new HashSet<Role>();
+
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL, optional = true)
+    private PlayerInfo playerInfo;
 
     public Long getId() {
         return id;
@@ -122,6 +125,15 @@ public class User implements Serializable {
 
     public void setLastUpdated(Date lastUpdated) {
         this.lastUpdated = lastUpdated;
+    }
+
+
+    public PlayerInfo getPlayerInfo() {
+        return playerInfo;
+    }
+
+    public void setPlayerInfo(PlayerInfo playerInfo) {
+        this.playerInfo = playerInfo;
     }
 
     public boolean readyToUpdate() {

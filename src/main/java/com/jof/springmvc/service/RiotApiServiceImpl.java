@@ -2,6 +2,7 @@ package com.jof.springmvc.service;
 
 import com.jof.springmvc.model.Champion;
 import com.jof.springmvc.model.Match;
+import com.jof.springmvc.model.MatchPlayer;
 import com.jof.springmvc.model.PlayerInfo;
 import com.jof.springmvc.util.region.InvalidRegionException;
 import net.rithms.riot.api.RiotApi;
@@ -97,33 +98,37 @@ public class RiotApiServiceImpl implements RiotApiService {
             match.setId(game.getGameId());
             match.setCreated_at(new Date(game.getCreateDate()));
 
-            List<PlayerInfo> playerInfos = new ArrayList<>();
+            List<MatchPlayer> matchPlayers = new ArrayList<>();
+            MatchPlayer matchPlayer = new MatchPlayer();
+            matchPlayer.setMatch(match);
             PlayerInfo playerInfo = new PlayerInfo();
-            playerInfo.setMatch(match);
             playerInfo.setSummonerId(recentGames.getSummonerId());
             playerInfo.setSummonerName(summonerName);
-            playerInfo.setTeamId(game.getStats().getTeam());
+            matchPlayer.setPlayerInfo(playerInfo);
+            matchPlayer.setTeamId(game.getStats().getTeam());
 
             Champion champion = new Champion();
             champion.setId(game.getChampionId());
-            playerInfo.setChampion(champion);
-            playerInfos.add(playerInfo);
-            playerInfo.setTeamId(game.getTeamId());
-            match.setWinnerTeamId(game.getStats().isWin() ? playerInfo.getTeamId() : theOppositeTeam(playerInfo.getTeamId()));
+            matchPlayer.setChampion(champion);
+            matchPlayers.add(matchPlayer);
+            matchPlayer.setTeamId(game.getTeamId());
+            match.setWinnerTeamId(game.getStats().isWin() ? matchPlayer.getTeamId() : theOppositeTeam(matchPlayer.getTeamId()));
 
             for (Player p : game.getFellowPlayers()) { // playerinfos
+                matchPlayer = new MatchPlayer();
+                matchPlayer.setMatch(match);
                 playerInfo = new PlayerInfo();
-                playerInfo.setMatch(match);
                 playerInfo.setSummonerId(p.getSummonerId());
                 playerInfo.setSummonerName(summonerNames.get(String.valueOf(p.getSummonerId())));
+                matchPlayer.setPlayerInfo(playerInfo);
                 champion = new Champion();
                 champion.setId(p.getChampionId());
-                playerInfo.setChampion(champion);
-                playerInfo.setTeamId(p.getTeamId());
-                playerInfos.add(playerInfo);
+                matchPlayer.setChampion(champion);
+                matchPlayer.setTeamId(p.getTeamId());
+                matchPlayers.add(matchPlayer);
             }
-            Collections.sort(playerInfos);
-            match.setPlayerInfos(playerInfos);
+            Collections.sort(matchPlayers);
+            match.setMatchPlayers(matchPlayers);
             matches.add(match);
         }
 

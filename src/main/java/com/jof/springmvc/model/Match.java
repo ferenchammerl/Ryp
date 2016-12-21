@@ -25,7 +25,7 @@ public class Match implements Serializable, Comparable {
 
     // So that we don't violate the first normal form by stashing 10 player Ids in a single column
     @OneToMany(mappedBy = "match", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private List<PlayerInfo> playerInfos = new ArrayList<PlayerInfo>();
+    private List<MatchPlayer> matchPlayers = new ArrayList<MatchPlayer>();
 
     @Column(name = "winner_team_id", nullable = false)
     private Integer winnerTeamId;
@@ -46,12 +46,12 @@ public class Match implements Serializable, Comparable {
         this.created_at = created_at;
     }
 
-    public List<PlayerInfo> getPlayerInfos() {
-        return playerInfos;
+    public List<MatchPlayer> getMatchPlayers() {
+        return matchPlayers;
     }
 
-    public void setPlayerInfos(List<PlayerInfo> playerInfos) {
-        this.playerInfos = playerInfos;
+    public void setMatchPlayers(List<MatchPlayer> matchPlayers) {
+        this.matchPlayers = matchPlayers;
     }
 
     public int getWinnerTeamId() {
@@ -63,9 +63,9 @@ public class Match implements Serializable, Comparable {
     }
 
     public boolean didPlayerWin(Long playerId) {
-        for (PlayerInfo playerInfo : playerInfos) {
-            if (playerInfo.getSummonerId().equals(playerId)) {
-                return playerInfo.getTeamId() == winnerTeamId;
+        for (MatchPlayer matchPlayer : matchPlayers) {
+            if (matchPlayer.getSummonerId().equals(playerId)) {
+                return matchPlayer.getTeamId() == winnerTeamId;
             }
         }
         return false;

@@ -20,13 +20,30 @@
 								<c:choose>
 									<c:when test="${edit}">
 										<form:input type="text" path="username" id="username"
-											class="form-control input-sm" disabled="true" />
+													class="form-control input-sm" disabled="true" />
 									</c:when>
 									<c:otherwise>
 										<form:input type="text" path="username" id="username"
-											class="form-control input-sm" />
+													class="form-control input-sm" />
 										<div class="has-error">
 											<form:errors path="username" class="help-inline" />
+										</div>
+									</c:otherwise>
+								</c:choose>
+							</div>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="form-group col-md-12">
+							<label class="col-md-3 control-lable" for="summonerName">Username</label>
+							<div class="col-md-7">
+								<c:choose>
+									<c:otherwise>
+										<form:input type="text" path="summonerName" id="summonerName"
+													class="form-control input-sm" />
+										<div class="has-error">
+											<form:errors path="summonerName" class="help-inline" />
 										</div>
 									</c:otherwise>
 								</c:choose>
